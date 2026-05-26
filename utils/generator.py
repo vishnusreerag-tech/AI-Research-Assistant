@@ -1,0 +1,27 @@
+import google.generativeai as genai
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+
+model = genai.GenerativeModel("models/gemini-2.5-flash")
+
+def generate_answer(query, relevant_chunks):
+
+    context = "\n".join(relevant_chunks)
+
+    prompt = f'''
+    Answer the question using the context below.
+
+    Context:
+    {context}
+
+    Question:
+    {query}
+    '''
+
+    response = model.generate_content(prompt)
+
+    return response.text
