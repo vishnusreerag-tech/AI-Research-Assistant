@@ -1,35 +1,62 @@
-# AI Research Assistant
+# 🧠 AI Research Assistant
 
-AI-powered Research Assistant built using RAG (Retrieval-Augmented Generation), LangChain, ChromaDB, and Streamlit.
+An advanced AI-powered Research Assistant built using RAG (Retrieval-Augmented Generation), ChromaDB, Gemini, and Streamlit.
 
-The application allows users to upload research documents and ask questions using semantic search and Large Language Models.
-
----
-
-# Features
-
-* PDF document upload
-* Semantic search using embeddings
-* ChromaDB vector database integration
-* Context-aware question answering
-* Streamlit interactive UI
-* Modular RAG pipeline
-* Gemini/OpenAI LLM integration
+The system allows users to upload multiple PDFs, perform semantic document search, and generate intelligent context-aware answers using modern LLM architecture.
 
 ---
 
-# Tech Stack
+#  Features
 
-* Python
-* Streamlit
-* LangChain
-* ChromaDB
-* HuggingFace Embeddings
-* Gemini API / OpenAI API
+ Multi-PDF Upload Support  
+ Semantic Search using Embeddings  
+ ChromaDB Vector Database Integration  
+ Retrieval-Augmented Generation (RAG)  
+ Context-Aware Question Answering  
+ Source Citation Support  
+ Persistent Vector Storage  
+ Modern Streamlit UI  
+ Modular AI Architecture  
+ Gemini/OpenAI LLM Integration  
 
 ---
 
-# Project Structure
+#  RAG Pipeline
+
+```text
+PDF Upload
+↓
+Text Extraction
+↓
+Chunking
+↓
+Embeddings Generation
+↓
+Store in ChromaDB
+↓
+Semantic Retrieval
+↓
+Gemini Response Generation
+↓
+Answer + Source Citations
+```
+
+---
+
+#  Tech Stack
+
+- Python
+- Streamlit
+- ChromaDB
+- LangChain Text Splitters
+- Sentence Transformers
+- Gemini API / OpenAI API
+- NLP
+- RAG Architecture
+
+---
+
+#  Project Structure
 
 ```bash
 AI-Research-Assistant/
@@ -38,84 +65,135 @@ AI-Research-Assistant/
 ├── requirements.txt
 ├── README.md
 ├── .gitignore
-│
-├── data/
+├── .env
 │
 ├── utils/
 │   ├── pdf_loader.py
 │   ├── text_splitter.py
-│   ├── embeddings.py
-│   ├── retriever.py
+│   ├── vector_store.py
 │   └── generator.py
 │
-└── chroma_db/
+├── chroma_db/
+├── screenshots/
+│
+└── data/
 ```
 
 ---
 
-# Installation
+#  Installation
+
+## Clone Repository
 
 ```bash
 git clone https://github.com/vishnusreerag-tech/AI-Research-Assistant.git
+```
 
+---
+
+## Move Into Project Folder
+
+```bash
 cd AI-Research-Assistant
+```
 
+---
+
+## Create Virtual Environment
+
+### Linux / Mac
+
+```bash
+python -m venv venv
+source venv/bin/activate
+```
+
+### Windows
+
+```bash
+python -m venv venv
+venv\\Scripts\\activate
+```
+
+---
+
+## Install Dependencies
+
+```bash
 pip install -r requirements.txt
+```
 
+---
+
+#  Environment Variables
+
+Create a `.env` file:
+
+```env
+GOOGLE_API_KEY=your_api_key_here
+```
+
+---
+
+#  Run Application
+
+```bash
 streamlit run app.py
 ```
 
 ---
 
-# Upcoming Features & Roadmap
+#  Upcoming Features
 
-### Source Citations
+### Conversational Memory
+- Context-aware conversations
+- Chat history support
 
-* Retrieved document chunks
-* Page numbers
-* Source references
-
-### Multiple PDF Support
-
-* Multiple document uploads
-* Cross-document retrieval
-
-### ChromaDB Persistence
-
-* Persistent vector database storage
-
-### Conversational Chat Memory
-
-* Context-aware conversations
+### Streaming Responses
+- Real-time AI response generation
 
 ### Advanced Retrieval
-
-* Hybrid search
-* Reranking
-* Metadata filtering
+- Hybrid search
+- Reranking
+- Metadata filtering
 
 ### AI Research Features
+- Research summarization
+- Flashcard generation
+- Quiz generation
+- Notes generation
 
-* Research summarization
-* Flashcard generation
-* Quiz generation
-* Citation generation
-
-### Modern UI Improvements
-
-* Dark/light themes
-* Chat-based layout
-* Animated loading effects
+### UI Improvements
+- Chat-based interface
+- Dark/Light themes
+- Animated loading effects
 
 ### Multi-Format Support
-
-* TXT
-* DOCX
-* Markdown
-* Website ingestion
+- TXT
+- DOCX
+- Markdown
+- Website ingestion
 
 ---
 
-# Status
+#  Concepts Used
+
+- Retrieval-Augmented Generation (RAG)
+- Semantic Search
+- Embeddings
+- Vector Databases
+- NLP Pipelines
+- Large Language Models (LLMs)
+
+---
+
+#  Status
 
 Currently under active development with continuous feature additions and improvements.
+
+---
+
+#  Author
+
+Vishnu Sreerag  
+MSc Computer Science (Data Science)
