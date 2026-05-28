@@ -1,18 +1,24 @@
 import google.generativeai as genai
 import os
+
 from dotenv import load_dotenv
 
 load_dotenv()
 
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+genai.configure(
+    api_key=os.getenv("GOOGLE_API_KEY")
+)
 
-model = genai.GenerativeModel("models/gemini-2.5-flash")
+model = genai.GenerativeModel(
+    "gemini-2.5-flash"
+)
 
-def generate_answer(query, relevant_chunks):
 
-    context = "\n".join(relevant_chunks)
+def generate_answer(query, documents):
 
-    prompt = f'''
+    context = "\n".join(documents)
+
+    prompt = f"""
     Answer the question using the context below.
 
     Context:
@@ -20,14 +26,14 @@ def generate_answer(query, relevant_chunks):
 
     Question:
     {query}
-    '''
+    """
 
-try:
+    try:
 
-    response = model.generate_content(prompt)
+        response = model.generate_content(prompt)
 
-    return response.text
+        return response.text
 
-except Exception as e:
+    except Exception as e:
 
-    return f"Error: {str(e)}"
+        return f"Error: {str(e)}"
