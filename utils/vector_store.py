@@ -41,7 +41,7 @@ def store_embeddings(chunks, source_name):
 
 # ---------------- RETRIEVE CHUNKS ----------------
 
-def retrieve_chunks(query, top_k=3):
+def retrieve_chunks(query, top_k=2):
 
     query_embedding = embedding_model.encode([query])[0]
 

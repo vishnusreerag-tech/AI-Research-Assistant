@@ -22,6 +22,12 @@ def generate_answer(query, relevant_chunks):
     {query}
     '''
 
+try:
+
     response = model.generate_content(prompt)
 
     return response.text
+
+except Exception as e:
+
+    return f"Error: {str(e)}"
