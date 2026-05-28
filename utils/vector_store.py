@@ -15,21 +15,36 @@ embedding_model = SentenceTransformer(
 )
 
 
-# ---------------- STORE EMBEDDINGS ----------------
+# ---------------- CLEAR DATABASE ----------------
 
+def clear_database():
+
+    client.delete_collection("research_assistant")
+
+    global collection
+
+    collection = client.get_or_create_collection(
+        name="research_assistant"
+    )
+
+
+# ---------------- STORE EMBEDDINGS ----------------
 def store_embeddings(chunks, source_name):
 
     embeddings = embedding_model.encode(chunks)
 
-    ids = [str(i) for i in range(len(chunks))]
+    ids = [
+        f"{source_name}_{i}"
+        for i in range(len(chunks))
+    ]
 
     metadatas = [
-    {
-        "source": source_name,
-        "page": i + 1
-    }
-    for i, _ in enumerate(chunks)
-]
+        {
+            "source": source_name,
+            "page": i + 1
+        }
+        for i, _ in enumerate(chunks)
+    ]
 
     collection.add(
         embeddings=embeddings.tolist(),
@@ -38,10 +53,9 @@ def store_embeddings(chunks, source_name):
         ids=ids
     )
 
-
 # ---------------- RETRIEVE CHUNKS ----------------
 
-def retrieve_chunks(query, top_k=2):
+def retrieve_chunks(query, top_k=5):
 
     query_embedding = embedding_model.encode([query])[0]
 

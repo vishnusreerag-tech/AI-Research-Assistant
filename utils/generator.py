@@ -15,19 +15,25 @@ def generate_answer(query, documents):
     context = "\n".join(documents)
 
     prompt = f"""
-    Answer the question using the context below.
+You are a document-based AI assistant.
 
-    Context:
-    {context}
+Answer ONLY using the provided context.
 
-    Question:
-    {query}
-    """
+If the answer is not present in the context,
+say:
+"Answer not found in provided documents."
+
+Context:
+{context}
+
+Question:
+{query}
+"""
 
     try:
 
         response = client.chat.completions.create(
-            model="llama3-8b-8192",
+            model="llama-3.1-8b-instant",
             messages=[
                 {
                     "role": "user",
