@@ -4,7 +4,7 @@ langchain-text-splitters
 sentence-transformers
 chromadb
 pypdf
-google-generativeai
 python-dotenv
 scikit-learn
 numpy
+groq
