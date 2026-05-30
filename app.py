@@ -199,7 +199,10 @@ with st.sidebar:
 
             text = load_pdf(uploaded_file.name)
 
-            st.session_state["pdf_text"] = text
+            if "pdfs" not in st.session_state:
+                st.session_state["pdfs"] = {}
+
+            st.session_state["pdfs"][uploaded_file.name] = text
 
             chunks = split_text(text)
             if len(chunks) == 0:
@@ -220,19 +223,20 @@ with st.sidebar:
 
     st.subheader("✨ AI Tools")
 
-    if st.button("📄 Summarize PDF"):
+if st.button("📄 Summarize PDF"):
 
-        if "pdf_text" not in st.session_state:
+    if "pdfs" not in st.session_state or len(st.session_state["pdfs"]) == 0:
 
-            st.warning("Upload a PDF first")
+        st.warning("Upload a PDF first")
 
-        else:
+    else:
+
+        for filename, text in st.session_state["pdfs"].items():
 
             summary_prompt = f"""
             Summarize the following document.
 
             Include:
-
             - Main topic
             - Key concepts
             - Important points
@@ -240,39 +244,80 @@ with st.sidebar:
 
             Document:
 
-            {st.session_state['pdf_text'][:8000]}
+            {text[:8000]}
             """
 
             summary = generate_answer(
                 summary_prompt,
-                [st.session_state["pdf_text"][:8000]]
+                [text[:8000]]
             )
 
             st.session_state.messages.append(
                 {
                     "role": "assistant",
-                    "content": f"## 📄 Document Summary\n\n{summary}"
+                    "content":
+                    f"## 📄 {filename}\n\n{summary}"
                 }
             )
 
-            st.rerun()
+        st.rerun()
+if st.button("📝 Generate Notes", key="notes_btn"):
 
-    if st.button("📝 Generate Notes"):
-        st.info("Notes Generator coming soon")
+    if "pdfs" not in st.session_state or len(st.session_state["pdfs"]) == 0:
 
-    if st.button("🎯 Generate Quiz"):
-        st.info("Quiz Generator coming soon")
+        st.warning("Upload a PDF first")
 
-    if st.button("🧠 Create Flashcards"):
-        st.info("Flashcards Generator coming soon")
+    else:
 
-    st.divider()
+        for filename, text in st.session_state["pdfs"].items():
 
-    if st.button("Clear Chat"):
+            notes_prompt = f"""
+            Create well-structured study notes from this document.
 
-        st.session_state.messages = []
+            Format:
+
+            # Title
+
+            ## Main Topics
+
+            ### Key Concepts
+
+            - Important points
+            - Definitions
+            - Explanations
+
+            ### Summary
+
+            Keep the notes concise and student-friendly.
+
+            Document:
+
+            {text[:8000]}
+            """
+
+            notes = generate_answer(
+                notes_prompt,
+                [text[:8000]]
+            )
+
+            st.session_state.messages.append(
+                {
+                    "role": "assistant",
+                    "content": f"## 📝 Notes for {filename}\n\n{notes}"
+                }
+            )
 
         st.rerun()
+    ...
+
+if st.button("🎯 Generate Quiz"):
+    ...
+
+if st.button("🧠 Create Flashcards"):
+    ...
+
+if st.button("Clear Chat"):
+    ...
 
 
 # ---------------- MAIN UI ----------------
