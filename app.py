@@ -244,12 +244,12 @@ if st.button("📄 Summarize PDF"):
 
             Document:
 
-            {text[:8000]}
+            {text[:4000]}
             """
 
             summary = generate_answer(
                 summary_prompt,
-                [text[:8000]]
+                [text[:4000]]
             )
 
             st.session_state.messages.append(
@@ -292,12 +292,12 @@ if st.button("📝 Generate Notes", key="notes_btn"):
 
             Document:
 
-            {text[:8000]}
+            {text[:4000]}
             """
 
             notes = generate_answer(
                 notes_prompt,
-                [text[:8000]]
+                [text[:4000]]
             )
 
             st.session_state.messages.append(
@@ -310,8 +310,57 @@ if st.button("📝 Generate Notes", key="notes_btn"):
         st.rerun()
     ...
 
-if st.button("🎯 Generate Quiz"):
-    ...
+if st.button("🎯 Generate Quiz", key="quiz_btn"):
+
+    if "pdfs" not in st.session_state or len(st.session_state["pdfs"]) == 0:
+
+        st.warning("Upload a PDF first")
+
+    else:
+
+        for filename, text in st.session_state["pdfs"].items():
+
+            quiz_prompt = f"""
+            Create a multiple choice quiz from this document.
+
+            Requirements:
+            - Generate 5 MCQs
+            - Each question should have 4 options
+            - Mention the correct answer
+            - Questions should test understanding
+            - Keep formatting clean
+
+            Format:
+
+            1. Question
+
+            - A)
+
+            - B)
+            
+            - C)
+            
+            - D)
+
+            Answer: B
+
+            Document:
+
+            {text[:3000]}
+            """
+
+            quiz = generate_answer(
+                quiz_prompt,
+                [text[:3000]]
+            )
+
+            st.session_state.messages.append(
+                {
+                    "role": "assistant",
+                    "content":
+                    f"## 🎯 Quiz for {filename}\n\n{quiz}"
+                }
+            )
 
 if st.button("🧠 Create Flashcards"):
     ...
