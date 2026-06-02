@@ -362,10 +362,76 @@ if st.button("🎯 Generate Quiz", key="quiz_btn"):
                 }
             )
 
-if st.button("🧠 Create Flashcards"):
+if st.button("🧠 Create Flashcards", key="flashcards_btn"):
+
+    if "pdfs" not in st.session_state or len(st.session_state["pdfs"]) == 0:
+
+        st.warning("Upload a PDF first")
+
+    else:
+
+        for filename, text in st.session_state["pdfs"].items():
+
+            flashcard_prompt = f"""
+            Create study flashcards from this document.
+
+            Requirements:
+            - Generate 5 flashcards
+            - Each flashcard should contain:
+                Question
+                Answer
+            - Keep answers concise
+            - Focus on important concepts
+
+            Format EXACTLY like this in Markdown:
+
+            ### Flashcard 1
+
+            **Q:** What is Artificial Intelligence?
+
+            **A:** Artificial Intelligence is the simulation of human intelligence in machines.
+
+            ### Flashcard 2
+
+            **Q:** What is Machine Learning?
+
+            **A:** Machine Learning is a subset of AI that enables systems to learn from data.
+
+            Document:
+
+            {text[:3000]}
+            """
+
+            flashcards = generate_answer(
+                flashcard_prompt,
+                [text[:3000]]
+            )
+
+            st.session_state.messages.append(
+                {
+                    "role": "assistant",
+                    "content":
+                    f"## 🧠 Flashcards for {filename}\n\n{flashcards}"
+                }
+            )
     ...
 
-if st.button("Clear Chat"):
+if st.button("🗑️ Clear Chat", key="clear_chat_btn"):
+
+    # Clear chat messages
+    st.session_state.messages = []
+
+    # Clear uploaded PDFs
+    if "pdfs" in st.session_state:
+        del st.session_state["pdfs"]
+
+    # Reset PDF processed state
+    st.session_state.pdf_processed = False
+
+    # Clear vector database
+    clear_database()
+
+    st.rerun()
     ...
 
 
